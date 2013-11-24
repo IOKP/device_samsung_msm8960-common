@@ -25,23 +25,9 @@ TARGET_BOARD_PLATFORM_GPU := qcom-adreno200
 TARGET_CPU_SMP := true
 
 # Flags
-COMMON_GLOBAL_CFLAGS += -D__ARM_USE_PLD -D__ARM_CACHE_LINE_SIZE=64
+COMMON_GLOBAL_CFLAGS += -D__ARM_USE_PLD -D__ARM_CACHE_LINE_SIZE=64 -DNEW_ION_API
 
-ifneq ($(VARIENT_REQUIRE_3.0_KERNEL),true)
-COMMON_GLOBAL_CFLAGS += -DNEW_ION_API
-endif
-
-TARGET_GLOBAL_CFLAGS += -mfpu=neon-vfpv4 -mfloat-abi=softfp
-TARGET_GLOBAL_CPPFLAGS += -mfpu=neon-vfpv4 -mfloat-abi=softfp
 TARGET_CPU_VARIANT := krait
-
-# Krait optimizations
-TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
-TARGET_USE_KRAIT_PLD_SET := true
-TARGET_KRAIT_BIONIC_PLDOFFS := 10
-TARGET_KRAIT_BIONIC_PLDTHRESH := 10
-TARGET_KRAIT_BIONIC_BBTHRESH := 64
-TARGET_KRAIT_BIONIC_PLDSIZE := 64
 
 # Adreno configuration
 BOARD_EGL_CFG := device/samsung/msm8960-common/configs/egl.cfg
@@ -81,7 +67,7 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/
 COMMON_GLOBAL_CFLAGS += -DSAMSUNG_CAMERA_HARDWARE
 
 # Workaround to avoid issues with legacy liblights on QCOM platforms
-TARGET_PROVIDES_LIBLIGHT := true
+USE_DEVICE_SPECIFIC_LIBLIGHT := true
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
@@ -99,9 +85,6 @@ TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 
 # We have the new GPS driver
 BOARD_HAVE_NEW_QC_GPS := true
-
-# Use CAF media driver variant for 8960
-TARGET_QCOM_MEDIA_VARIANT := caf
 
 # Use retire fence from MDP driver
 TARGET_DISPLAY_USE_RETIRE_FENCE := true
